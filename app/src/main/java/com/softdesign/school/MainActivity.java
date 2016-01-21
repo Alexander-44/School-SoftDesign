@@ -18,37 +18,37 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        log.i(getLocalClassName(),"Start");
+        log.send_log(Lg.Loglvl.Info,getLocalClassName(), "Start");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        log.i(getLocalClassName(), "Resume");
+        log.send_log(Lg.Loglvl.Info,getLocalClassName(), "Resume");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        log.i(getLocalClassName(), "Pause");
+        log.send_log(Lg.Loglvl.Info,getLocalClassName(), "Pause");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        log.i(getLocalClassName(), "Stop");
+        log.send_log(Lg.Loglvl.Info,getLocalClassName(), "Stop");
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        log.i(getLocalClassName(), "Restart");
+        log.send_log(Lg.Loglvl.Info,getLocalClassName(), "Restart");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        log.i(getLocalClassName(),"Destroy");
+        log.send_log(Lg.Loglvl.Info,getLocalClassName(), "Destroy");
     }
 
 }

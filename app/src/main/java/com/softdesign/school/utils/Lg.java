@@ -9,60 +9,57 @@ import android.util.Log;
  */
 public class Lg {
 
+    /**
+     * Перечисление всех уровней логов
+     */
+    public enum Loglvl{
+        Verbose,
+        Debug,
+        Info,
+        Warning,
+        Error,
+        Assert;
+    }
+
     private static final String PREFIX = "HTC ";
     public static final int LOGCAT_BUFFER_SIZE = 3000;
 
     private static boolean shouldLog() {
-//        return BuildConfig.IS_LOGCAT_LOGGER_ENABLED;
-       return true;
-// return false;
+    //return BuildConfig.IS_LOGCAT_LOGGER_ENABLED;
+    return true;
+    //return false;
     }
 
-    public static void i (String tag, String text){
+    /**
+     * Обрабатывает и кусками(или полность (согласно длинне LOGCAT_BUFFER_SIZE))посылает сообщение дальше методу throw_log
+     */
+    public static void send_log (Loglvl lvl, String tag, String text){
         if (shouldLog()) {
             if (text.length() > LOGCAT_BUFFER_SIZE){
                 String s = text;
                 while (s.length() > LOGCAT_BUFFER_SIZE){
                     String s1 = s.substring(0, LOGCAT_BUFFER_SIZE);
                     s = s.substring(LOGCAT_BUFFER_SIZE);
-                    Log.i(PREFIX + tag, s1);
+                    throw_log(lvl, PREFIX + tag, s1);
                 }
-                Log.i(PREFIX + tag, s);
+                throw_log(lvl, PREFIX + tag, s);
             } else {
-                Log.i(PREFIX + tag, text);
+                throw_log(lvl, PREFIX + tag, text);
             }
         }
     }
 
-    public static void e (String tag, String text) {
-        if (shouldLog()) {
-            if (text.length() > LOGCAT_BUFFER_SIZE){
-                String s = text;
-                while (s.length() > LOGCAT_BUFFER_SIZE){
-                    String s1 = s.substring(0, LOGCAT_BUFFER_SIZE);
-                    s = s.substring(LOGCAT_BUFFER_SIZE);
-                    Log.e(PREFIX + tag, s1);
-                }
-                Log.e(PREFIX + tag, s);
-            } else {
-                Log.e(PREFIX + tag, text);
-            }
-        }
-    }
-
-    public static void w (String tag, String text) {
-        if (shouldLog()) {
-            if (text.length() > LOGCAT_BUFFER_SIZE){
-                String s = text;
-                while (s.length() > LOGCAT_BUFFER_SIZE){
-                    String s1 = s.substring(0, LOGCAT_BUFFER_SIZE);
-                    s = s.substring(LOGCAT_BUFFER_SIZE);
-                    Log.w(PREFIX + tag, s1);
-                }
-                Log.w(PREFIX + tag, s);
-            } else {
-                Log.w(PREFIX + tag, text);
-            }
+    /**
+     * Кидает сообщение в лог согласно уровню
+     */
+    private static void throw_log(Loglvl lvl, String tag, String text){
+        switch (lvl){
+            case Verbose: Log.v(tag, text) ;   break;
+            case Debug: Log.d(tag, text) ;   break;
+            case Info: Log.i(tag, text) ;   break;
+            case Error: Log.e(tag, text) ;   break;
+            case Warning: Log.w(tag, text) ;   break;
+            case Assert: Log.wtf(tag,text);   break;
         }
     }
 }
