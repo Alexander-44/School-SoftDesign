@@ -1,8 +1,8 @@
 package com.softdesign.school;
 
-import android.content.res.Resources;
-import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -17,12 +17,13 @@ import android.widget.Toast;
 
 import com.softdesign.school.utils.Lg;
 
-import static android.graphics.Color.*;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
 
     public static final String VISIBLE_KEY = "visible";
+    public static final String TOOLBAR_COLOR_KEY = "toolbar_color_key";
+    public static final String STATUSBAR_COLOR_KEY = "statusbar_color_key";
 
     private CheckBox mCheckBox;
     private EditText mEditText;
@@ -31,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button mButtonGreen;
     private Button mButtonRed;
     private Toolbar mToolbar;
+    private int mToolbarColor;
+    private int mStatusbarColor;
    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,30 +44,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mCheckBox = (CheckBox) findViewById(R.id.checkBox);
         mCheckBox.setOnClickListener(this);
-
         mEditText = (EditText) findViewById(R.id.editText);
         mEditText2 = (EditText) findViewById(R.id.editText2);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mButtonBlue = (Button) findViewById(R.id.btn_blue);
-        mButtonBlue.setOnClickListener(this);
         mButtonGreen = (Button) findViewById(R.id.btn_green);
-        mButtonGreen.setOnClickListener(this);
         mButtonRed = (Button) findViewById(R.id.btn_red);
+        mButtonBlue.setOnClickListener(this);
+        mButtonGreen.setOnClickListener(this);
         mButtonRed.setOnClickListener(this);
 
-        setupToolbar();
+       mToolbarColor = this.getResources().getColor(R.color.colorPrimary);
+       mStatusbarColor = this.getResources().getColor(R.color.colorPrimaryDark);
+       changeColor(mToolbarColor, mStatusbarColor);
 
+       setupToolbar();
    }
 
+
+    /**
+     * Инициализирует toolbar
+     */
     private void setupToolbar(){
         setSupportActionBar(mToolbar);
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar();
         if (actionBar != null){
             actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_24dp);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
 
+    /**
+     *
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId()==android.R.id.home){
@@ -73,6 +87,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Обрабатывает нажатия
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         int id = v.getId();
@@ -86,46 +104,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.btn_blue:
-                mToolbar.setBackgroundResource(R.color.blue);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    Window window = this.getWindow();
-                 //   window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-                 //   window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                    window.setStatusBarColor(parseColor("#002137"));
-                    window.setStatusBarColor(RED);
-                    window.setStatusBarColor(Color.RED);
-                    window.setStatusBarColor(this.getResources().getColor(R.color.green));
-                 //   window.setStatusBarColor(this.getResources().getColor(R.color.green,this.getTheme()));
-                }
+                mToolbarColor = this.getResources().getColor(R.color.blue);
+                mStatusbarColor = this.getResources().getColor(R.color.dark_blue);
+                changeColor(mToolbarColor, mStatusbarColor);
                 break;
             case R.id.btn_green:
-                mToolbar.setBackgroundResource(R.color.green);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    Window window = this.getWindow();
-                    window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-                    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                    window.setStatusBarColor(this.getResources().getColor(android.R.color.holo_green_dark));
-
-
-                }
+                mToolbarColor = this.getResources().getColor(R.color.green);
+                mStatusbarColor = this.getResources().getColor(R.color.dark_green);
+                changeColor(mToolbarColor, mStatusbarColor);
                 break;
             case R.id.btn_red:
-                mToolbar.setBackgroundResource(R.color.red);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    Window window = this.getWindow();
-                    window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-                    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                    window.setStatusBarColor(parseColor("#8b0000"));
-                }
+                mToolbarColor = this.getResources().getColor(R.color.red);
+                mStatusbarColor = this.getResources().getColor(R.color.dark_red);
+                changeColor(mToolbarColor, mStatusbarColor);
                 break;
         }
     }
 
+    /**
+     * Меняет цвет у toolbar and statusbar
+     * @param toolbarColor
+     * @param statusbarColor
+     */
+    private void changeColor(int toolbarColor, int statusbarColor){
+        mToolbar.setBackgroundColor(toolbarColor);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().setStatusBarColor(statusbarColor);
+        }
+    }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Lg.send_log(Lg.Loglvl.Info,this.getLocalClassName(), "Start");
+        Lg.send_log(Lg.Loglvl.Info, this.getLocalClassName(), "Start");
     }
 
     @Override
@@ -143,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStop() {
         super.onStop();
-        Lg.send_log(Lg.Loglvl.Info,this.getLocalClassName(), "Stop");
+        Lg.send_log(Lg.Loglvl.Info, this.getLocalClassName(), "Stop");
     }
 
     @Override
@@ -162,7 +176,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         Lg.send_log(Lg.Loglvl.Info, this.getLocalClassName(), "onSaveInstanceState");
-        outState.putBoolean(VISIBLE_KEY,mEditText2.getVisibility()==View.VISIBLE);
+        outState.putBoolean(VISIBLE_KEY, mEditText2.getVisibility() == View.VISIBLE);
+            outState.putInt(TOOLBAR_COLOR_KEY, ((ColorDrawable) mToolbar.getBackground()).getColor());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                outState.putInt(STATUSBAR_COLOR_KEY, getWindow().getStatusBarColor());
+            }
+
     }
 
     @Override
@@ -171,6 +190,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Lg.send_log(Lg.Loglvl.Info, this.getLocalClassName(), "onRestoreInstanceState");
         int visibleState =  savedInstanceState.getBoolean(VISIBLE_KEY) ? View.VISIBLE : View.INVISIBLE;
         mEditText2.setVisibility(visibleState);
+        changeColor(savedInstanceState.getInt(TOOLBAR_COLOR_KEY), savedInstanceState.getInt(STATUSBAR_COLOR_KEY));
 
     }
 }
