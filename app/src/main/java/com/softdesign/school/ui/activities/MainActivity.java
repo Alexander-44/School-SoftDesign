@@ -1,7 +1,9 @@
-package com.softdesign.school;
+package com.softdesign.school.ui.activities;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.softdesign.school.R;
 import com.softdesign.school.utils.Lg;
 
 
@@ -34,6 +37,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Toolbar mToolbar;
     private int mToolbarColor;
     private int mStatusbarColor;
+    private NavigationView mNavigationView;
+    private DrawerLayout mNavigationDrawer;
+
    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         setTitle("School lesson 1");
 
+        mNavigationDrawer=(DrawerLayout) findViewById(R.id.navigation_drawer);
+        mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
         mCheckBox = (CheckBox) findViewById(R.id.checkBox);
         mCheckBox.setOnClickListener(this);
         mEditText = (EditText) findViewById(R.id.editText);
@@ -59,8 +67,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
        changeColor(mToolbarColor, mStatusbarColor);
 
        setupToolbar();
+       setupDrawer();
    }
 
+    private void setupDrawer(){
+
+    }
 
     /**
      * Инициализирует toolbar
