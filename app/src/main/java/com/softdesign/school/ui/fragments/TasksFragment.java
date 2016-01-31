@@ -9,12 +9,12 @@ import android.view.ViewGroup;
 
 import com.softdesign.school.R;
 
-public class ContactsFragment extends Fragment {
+public class TasksFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View convertView = inflater.inflate(R.layout.fragment_contacts,null,false);
-        getActivity().setTitle(getResources().getString(R.string.drawer_contacts));
+        View convertView = inflater.inflate(R.layout.fragment_tasks,null,false);
+        getActivity().setTitle(getResources().getString(R.string.drawer_tasks));
         return convertView;
     }
 }

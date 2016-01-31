@@ -9,9 +9,6 @@ import android.view.ViewGroup;
 
 import com.softdesign.school.R;
 
-/**
- * Created by Администратор on 31.01.2016.
- */
 public class ProfileFragment extends Fragment {
     @Nullable
     @Override

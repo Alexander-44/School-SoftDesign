@@ -5,8 +5,8 @@
     android:id="@+id/navigation_drawer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.activities.MainActivity">
 
 
@@ -27,7 +27,6 @@
                 android:elevation="@dimen/elevation_hight" />
 
         </android.support.design.widget.AppBarLayout>
-     <!--   <include layout="@layout/main_content"/> -->
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

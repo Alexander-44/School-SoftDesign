@@ -12,36 +12,20 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.softdesign.school.R;
 import com.softdesign.school.ui.fragments.ContactsFragment;
 import com.softdesign.school.ui.fragments.ProfileFragment;
+import com.softdesign.school.ui.fragments.SettingFragment;
+import com.softdesign.school.ui.fragments.TasksFragment;
+import com.softdesign.school.ui.fragments.TeamFragment;
 import com.softdesign.school.utils.Lg;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
-
-    public static final String VISIBLE_KEY = "visible";
-    public static final String TOOLBAR_COLOR_KEY = "toolbar_color_key";
-    public static final String STATUSBAR_COLOR_KEY = "statusbar_color_key";
-
-    private CheckBox mCheckBox;
-    private EditText mEditText;
-    private EditText mEditText2;
-    private Button mButtonBlue;
-    private Button mButtonGreen;
-    private Button mButtonRed;
     private Toolbar mToolbar;
-    private int mToolbarColor;
-    private int mStatusbarColor;
     private NavigationView mNavigationView;
     private DrawerLayout mNavigationDrawer;
     private Fragment mFragment;
@@ -49,35 +33,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
    @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Lg.send_log(Lg.Loglvl.Info, this.getLocalClassName(), "Create");
+       super.onCreate(savedInstanceState);
+       setContentView(R.layout.activity_main);
+       Lg.send_log(Lg.Loglvl.Info, this.getLocalClassName(), "Create");
+       setTitle("School lesson 1");
 
-        setTitle("School lesson 1");
-
-        mNavigationDrawer=(DrawerLayout) findViewById(R.id.navigation_drawer);
-        mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-       /*
-        mCheckBox = (CheckBox) findViewById(R.id.checkBox);
-        mCheckBox.setOnClickListener(this);
-        mEditText = (EditText) findViewById(R.id.editText);
-        mEditText2 = (EditText) findViewById(R.id.editText2);
-        mButtonBlue = (Button) findViewById(R.id.btn_blue);
-        mButtonGreen = (Button) findViewById(R.id.btn_green);
-        mButtonRed = (Button) findViewById(R.id.btn_red);
-        mButtonBlue.setOnClickListener(this);
-        mButtonGreen.setOnClickListener(this);
-        mButtonRed.setOnClickListener(this);
-       */
-       mToolbarColor = this.getResources().getColor(R.color.colorPrimary);
-       mStatusbarColor = this.getResources().getColor(R.color.colorPrimaryDark);
-       changeColor(mToolbarColor, mStatusbarColor);
+       mNavigationDrawer=(DrawerLayout) findViewById(R.id.navigation_drawer);
+       mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
+       mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
        setupToolbar();
        setupDrawer();
 
-       if(savedInstanceState!=null){
+       if(savedInstanceState!=null){ //если запустили приложение первый раз, то подкладываем фрагмент профиля
        } else {
            getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_conteiner,new ProfileFragment()).commit();
        }
@@ -95,6 +63,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         mFragment = new ContactsFragment();
                         mNavigationView.getMenu().findItem(R.id.drawer_contacts).setChecked(true);
                         break;
+                    case R.id.drawer_tasks:
+                        mFragment = new TasksFragment();
+                        mNavigationView.getMenu().findItem(R.id.drawer_tasks).setChecked(true);
+                        break;
+                    case R.id.drawer_team:
+                        mFragment = new TeamFragment();
+                        mNavigationView.getMenu().findItem(R.id.drawer_team).setChecked(true);
+                        break;
+                    case R.id.drawer_setting:
+                        mFragment = new SettingFragment();
+                        mNavigationView.getMenu().findItem(R.id.drawer_setting).setChecked(true);
+                        break;
                 }
                 if(mFragment != null){
                     getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_conteiner,mFragment).addToBackStack(null).commit();
@@ -103,7 +83,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return false;
             }
         });
-
     }
 
     /**
@@ -119,67 +98,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     /**
-     *
-     * @param item
-     * @return
+     * Обработчик нажатия на кнопку меню
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId()==android.R.id.home){
            mNavigationDrawer.openDrawer(GravityCompat.START);
-           // Toast.makeText(this,"Menu click",Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }
 
+
     /**
      * Обрабатывает нажатия
-     * @param v
      */
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        switch (id){
-            case R.id.checkBox:
-                Toast.makeText(this, "Click!", Toast.LENGTH_SHORT).show();
-                if(mCheckBox.isChecked()){
-                    mEditText2.setVisibility(View.INVISIBLE);
-                } else {
-                    mEditText2.setVisibility(View.VISIBLE);
-                }
-                break;
-            case R.id.btn_blue:
-                mToolbarColor = this.getResources().getColor(R.color.blue);
-                mStatusbarColor = this.getResources().getColor(R.color.dark_blue);
-                changeColor(mToolbarColor, mStatusbarColor);
-                break;
-            case R.id.btn_green:
-                mToolbarColor = this.getResources().getColor(R.color.green);
-                mStatusbarColor = this.getResources().getColor(R.color.dark_green);
-                changeColor(mToolbarColor, mStatusbarColor);
-                break;
-            case R.id.btn_red:
-                mToolbarColor = this.getResources().getColor(R.color.red);
-                mStatusbarColor = this.getResources().getColor(R.color.dark_red);
-                changeColor(mToolbarColor, mStatusbarColor);
-                break;
+   /*   switch (id){
+            case
+            break;
         }
+        */
     }
 
-    /**
-     * Меняет цвет у toolbar and statusbar
-     * @param toolbarColor
-     * @param statusbarColor
-     */
-    private void changeColor(int toolbarColor, int statusbarColor){
-        mToolbar.setBackgroundColor(toolbarColor);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            getWindow().setStatusBarColor(statusbarColor);
-        }
-    }
 
     @Override
     protected void onStart() {
@@ -221,21 +163,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         Lg.send_log(Lg.Loglvl.Info, this.getLocalClassName(), "onSaveInstanceState");
-        outState.putBoolean(VISIBLE_KEY, mEditText2.getVisibility() == View.VISIBLE);
-            outState.putInt(TOOLBAR_COLOR_KEY, ((ColorDrawable) mToolbar.getBackground()).getColor());
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                outState.putInt(STATUSBAR_COLOR_KEY, getWindow().getStatusBarColor());
-            }
-
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         Lg.send_log(Lg.Loglvl.Info, this.getLocalClassName(), "onRestoreInstanceState");
-        int visibleState =  savedInstanceState.getBoolean(VISIBLE_KEY) ? View.VISIBLE : View.INVISIBLE;
-        mEditText2.setVisibility(visibleState);
-        changeColor(savedInstanceState.getInt(TOOLBAR_COLOR_KEY), savedInstanceState.getInt(STATUSBAR_COLOR_KEY));
-
     }
 }

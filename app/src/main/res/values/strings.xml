@@ -8,4 +8,7 @@
     <string name="drawer.setting">Настройки</string>
     <string name="fragment.contacts.description">Здесь будут контакты</string>
     <string name="fragment.profile.description">Здесь будет профиль</string>
+    <string name="fragment.tasks.description">Здесь будут задачи</string>
+    <string name="fragment.team.description">Здесь будет команда</string>
+    <string name="fragment.setting.description">Здесь будут настройки</string>
 </resources>
