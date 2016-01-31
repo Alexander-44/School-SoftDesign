@@ -3,6 +3,8 @@ package com.softdesign.school.ui.activities;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -15,9 +17,12 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.softdesign.school.R;
+import com.softdesign.school.ui.fragments.ContactsFragment;
+import com.softdesign.school.ui.fragments.ProfileFragment;
 import com.softdesign.school.utils.Lg;
 
 
@@ -39,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int mStatusbarColor;
     private NavigationView mNavigationView;
     private DrawerLayout mNavigationDrawer;
+    private Fragment mFragment;
+    private FrameLayout mFrameConteiner;
 
    @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,27 +57,52 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mNavigationDrawer=(DrawerLayout) findViewById(R.id.navigation_drawer);
         mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+       /*
         mCheckBox = (CheckBox) findViewById(R.id.checkBox);
         mCheckBox.setOnClickListener(this);
         mEditText = (EditText) findViewById(R.id.editText);
         mEditText2 = (EditText) findViewById(R.id.editText2);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mButtonBlue = (Button) findViewById(R.id.btn_blue);
         mButtonGreen = (Button) findViewById(R.id.btn_green);
         mButtonRed = (Button) findViewById(R.id.btn_red);
         mButtonBlue.setOnClickListener(this);
         mButtonGreen.setOnClickListener(this);
         mButtonRed.setOnClickListener(this);
-
+       */
        mToolbarColor = this.getResources().getColor(R.color.colorPrimary);
        mStatusbarColor = this.getResources().getColor(R.color.colorPrimaryDark);
        changeColor(mToolbarColor, mStatusbarColor);
 
        setupToolbar();
        setupDrawer();
+
+       if(savedInstanceState!=null){
+       } else {
+           getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_conteiner,new ProfileFragment()).commit();
+       }
    }
 
     private void setupDrawer(){
+        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            public boolean onNavigationItemSelected(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.drawer_profile:
+                        mFragment = new ProfileFragment();
+                        mNavigationView.getMenu().findItem(R.id.drawer_profile).setChecked(true);
+                        break;
+                    case R.id.drawer_contacts:
+                        mFragment = new ContactsFragment();
+                        mNavigationView.getMenu().findItem(R.id.drawer_contacts).setChecked(true);
+                        break;
+                }
+                if(mFragment != null){
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_conteiner,mFragment).addToBackStack(null).commit();
+                }
+                mNavigationDrawer.closeDrawers();
+                return false;
+            }
+        });
 
     }
 
@@ -94,7 +126,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId()==android.R.id.home){
-            Toast.makeText(this,"Menu click",Toast.LENGTH_SHORT).show();
+           mNavigationDrawer.openDrawer(GravityCompat.START);
+           // Toast.makeText(this,"Menu click",Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }
