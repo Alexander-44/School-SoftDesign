@@ -10,6 +10,8 @@
     <color name="dark_blue">#000064</color>
     <color name="dark_green">#006400</color>
     <color name="dark_red">#640000</color>
+    <color name="dark_toolbar">#b90101</color>
+    <color name="dark_statusbar">#8e2a2a</color>
 
     <color name="icon_color">#ffffff</color>
 </resources>

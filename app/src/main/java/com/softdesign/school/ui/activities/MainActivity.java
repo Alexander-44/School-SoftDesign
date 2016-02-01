@@ -4,6 +4,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -36,7 +37,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
        super.onCreate(savedInstanceState);
        setContentView(R.layout.activity_main);
        Lg.send_log(Lg.Loglvl.Info, this.getLocalClassName(), "Create");
-       setTitle("School lesson 1");
 
        mNavigationDrawer=(DrawerLayout) findViewById(R.id.navigation_drawer);
        mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
@@ -51,33 +51,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
        }
    }
 
+    /**
+     * Вешает слушатель на кнопки меню, устанавливает фрагмент.
+     */
     private void setupDrawer(){
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             public boolean onNavigationItemSelected(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.drawer_profile:
                         mFragment = new ProfileFragment();
-                        mNavigationView.getMenu().findItem(R.id.drawer_profile).setChecked(true);
                         break;
                     case R.id.drawer_contacts:
                         mFragment = new ContactsFragment();
-                        mNavigationView.getMenu().findItem(R.id.drawer_contacts).setChecked(true);
                         break;
                     case R.id.drawer_tasks:
                         mFragment = new TasksFragment();
-                        mNavigationView.getMenu().findItem(R.id.drawer_tasks).setChecked(true);
                         break;
                     case R.id.drawer_team:
                         mFragment = new TeamFragment();
-                        mNavigationView.getMenu().findItem(R.id.drawer_team).setChecked(true);
                         break;
                     case R.id.drawer_setting:
                         mFragment = new SettingFragment();
-                        mNavigationView.getMenu().findItem(R.id.drawer_setting).setChecked(true);
                         break;
                 }
-                if(mFragment != null){
-                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_conteiner,mFragment).addToBackStack(null).commit();
+                if (mFragment != null) {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_conteiner, mFragment).addToBackStack(null).commit();
                 }
                 mNavigationDrawer.closeDrawers();
                 return false;
@@ -108,6 +106,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Обрабатывает нажатия клавиши назад
+     */
+    @Override
+    public void onBackPressed(){
+        Lg.send_log(Lg.Loglvl.Info,this.getLocalClassName(), "ONBACKPRESSED");
+        int count = getSupportFragmentManager().getBackStackEntryCount();//считываем количество фрагментов в BackStack
+        Lg.send_log(Lg.Loglvl.Info, this.getLocalClassName(), "count:" + count);
+        if(count==0){//если фрагментов не осталось - выходим
+            finish();
+            System.exit(0);
+        }else {
+            getSupportFragmentManager().popBackStack();
+        }
+    }
 
     /**
      * Обрабатывает нажатия
@@ -121,7 +134,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         */
     }
-
 
     @Override
     protected void onStart() {
