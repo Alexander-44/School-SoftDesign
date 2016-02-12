@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">School</string>
 
+    <!-- Font Family -->
+    <string name="ff_regular">sans-serif</string>
+    <string name="ff_medium">sans-serif-medium</string>
+
+    <string name="image_description" />
+
+    <!-- Strings -->
     <string name="drawer.profile">Профиль</string>
     <string name="drawer.contacts">Контакты</string>
     <string name="drawer.tasks">Задачи</string>
@@ -13,4 +20,14 @@
     <string name="fragment.tasks.description">Здесь будут задачи</string>
     <string name="fragment.team.description">Здесь будет команда</string>
     <string name="fragment.setting.description">Здесь будут настройки</string>
+    <string name="profile.mobile">+7(960)843-43-14</string>
+    <string name="profile.mobile.type">Телефон</string>
+    <string name="profile.email">lomik-44@yandex.ru</string>
+    <string name="profile.email.type">E-mail</string>
+    <string name="profile.vk">vk.com/id41669862</string>
+    <string name="profile.vk.type">VK</string>
+    <string name="profile.github">https://github.com/Alexander-44/school-softdesign</string>
+    <string name="profile.github.type">GitHub</string>
+    <string name="profile.aboutme">О себе</string>
+    <string name="profile.aboutme.type">О себе</string>
 </resources>
