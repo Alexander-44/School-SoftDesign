@@ -11,7 +11,11 @@ import android.view.ViewGroup;
 import com.softdesign.school.R;
 import com.softdesign.school.utils.Lg;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 public class SettingFragment extends Fragment {
+    @Bind(R.id.navigation_view)
     private NavigationView mNavigationView;
     @Nullable
     @Override
@@ -21,6 +25,7 @@ public class SettingFragment extends Fragment {
         mNavigationView = (NavigationView) getActivity().findViewById(R.id.navigation_view);
         mNavigationView.getMenu().findItem(R.id.drawer_setting).setChecked(true);
         Lg.send_log(Lg.Loglvl.Info, this.getClass().getSimpleName(), "FRAGMENT - onCreateView");
+        ButterKnife.bind(this, getActivity());
         return convertView;
     }
     @Override

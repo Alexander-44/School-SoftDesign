@@ -15,18 +15,22 @@ import android.view.ViewGroup;
 import com.softdesign.school.R;
 import com.softdesign.school.ui.activities.MainActivity;
 import com.softdesign.school.utils.Lg;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class ProfileFragment extends Fragment {
+    @Bind(R.id.navigation_view)
     private NavigationView mNavigationView;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View convertView = inflater.inflate(R.layout.fragment_profile,null,false);
         getActivity().setTitle(getResources().getString(R.string.personal_name));
-        ((MainActivity) getActivity()).lockAppBar(false,getResources().getString(R.string.personal_name));
-        mNavigationView = (NavigationView) getActivity().findViewById(R.id.navigation_view);
+        ((MainActivity) getActivity()).lockAppBar(false, getResources().getString(R.string.personal_name));
+      //  mNavigationView = (NavigationView) getActivity().findViewById(R.id.navigation_view);
         mNavigationView.getMenu().findItem(R.id.drawer_profile).setChecked(true);
         Lg.send_log(Lg.Loglvl.Info, this.getClass().getSimpleName(), "FRAGMENT - onCreateView");
+        ButterKnife.bind(this, getActivity());
         return convertView;
     }
 
