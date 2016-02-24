@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
+    android:orientation="vertical"
     android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
@@ -49,7 +49,7 @@
         android:id="@+id/icon"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:src="@drawable/foto"
+        android:src="@drawable/foto_circle"
         android:layout_above="@+id/text_name"
         android:layout_marginLeft="@dimen/spacing_normal"
         android:layout_alignParentLeft="true"
