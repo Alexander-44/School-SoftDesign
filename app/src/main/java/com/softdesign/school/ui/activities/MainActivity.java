@@ -27,16 +27,29 @@ import com.softdesign.school.ui.fragments.SettingFragment;
 import com.softdesign.school.ui.fragments.TasksFragment;
 import com.softdesign.school.ui.fragments.TeamFragment;
 import com.softdesign.school.utils.Lg;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private Toolbar mToolbar;
-    private NavigationView mNavigationView;
-    private DrawerLayout mNavigationDrawer;
+
     private Fragment mFragment;
-    public AppBarLayout mAppBar;
-    private CollapsingToolbarLayout mCollapsingToolbar;
+
+    @Bind(R.id.toolbar)
+    Toolbar mToolbar;
+    @Bind(R.id.navigation_drawer)
+    DrawerLayout mNavigationDrawer;
+    @Bind(R.id.navigation_view)
+    NavigationView mNavigationView;
+    @Bind(R.id.appbar_layout)
+    AppBarLayout mAppBar;
+    @Bind(R.id.collapsing_toolbar)
+    CollapsingToolbarLayout mCollapsingToolbar;
+
+
+
+
     private View mHeaderLayout;
     CoordinatorLayout mCordinator;
 
@@ -46,14 +59,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
        super.onCreate(savedInstanceState);
        setContentView(R.layout.activity_main);
+       ButterKnife.bind(this);
        Lg.send_log(Lg.Loglvl.Info, this.getLocalClassName(), "Create");
        mCordinator = (CoordinatorLayout) findViewById(R.id.coordinator_layout);
-       mNavigationDrawer=(DrawerLayout) findViewById(R.id.navigation_drawer);
-       mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
-       mToolbar = (Toolbar) findViewById(R.id.toolbar);
        mHeaderLayout = mNavigationView.inflateHeaderView(R.layout.navigation_header);
-       mAppBar = (AppBarLayout) findViewById(R.id.appbar_layout);
-       mCollapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
        setupToolbar();
        setupDrawer();
 

@@ -23,7 +23,11 @@ import com.softdesign.school.utils.Lg;
 
 import java.util.ArrayList;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 public class ContactsFragment extends Fragment {
+    @Bind(R.id.navigation_view)
     private NavigationView mNavigationView;
     ArrayList<User> mUsers = new ArrayList<User>();
     private RecyclerView mRecyclerView;
@@ -37,7 +41,7 @@ public class ContactsFragment extends Fragment {
         getActivity().setTitle(getResources().getString(R.string.drawer_contacts));
 
         ((MainActivity) getActivity()).lockAppBar(true,getResources().getString(R.string.drawer_contacts));
-        mNavigationView = (NavigationView) getActivity().findViewById(R.id.navigation_view);
+     //   mNavigationView = (NavigationView) getActivity().findViewById(R.id.navigation_view);
         mNavigationView.getMenu().findItem(R.id.drawer_contacts).setChecked(true);
         Lg.send_log(Lg.Loglvl.Info, this.getClass().getSimpleName(), "FRAGMENT - onCreateView");
 
@@ -50,7 +54,7 @@ public class ContactsFragment extends Fragment {
 
         mAdapter = new RecycleUsersAdapter(mUsers);
         mRecyclerView.setAdapter(mAdapter);
-
+        ButterKnife.bind(this, getActivity());
         return convertView;
     }
 
